@@ -43,7 +43,7 @@
                 </ul>
             </div>
             <div class="navbar-end">
-                <input type="text" placeholder="Search" class="input input-bordered w-64 lg:w-auto hidden lg:block" />
+                <input type="text" placeholder="Search" class="input input-bordered w-64 lg:w-auto hidden md:block" />
             </div>
         </div>
 
@@ -67,8 +67,13 @@
     <!-- navbar end -->
 
     <!-- content -->
-    <div class="container mx-auto px-2">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam accusantium nobis dolorum, ab suscipit facere vero reiciendis, sint velit minima cumque harum alias porro amet consectetur possimus eveniet pariatur tempora.
+    <div class="flex flex-col px-2 py-2">
+        <div>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam accusantium nobis dolorum, ab suscipit facere vero reiciendis, sint velit minima cumque harum alias porro amet consectetur possimus eveniet pariatur tempora.
+        </div>
+        <div>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. In rem fugit dolor dolorem similique tempora blanditiis atque minima repellat voluptatibus fugiat soluta nemo, unde facere, tempore, asperiores repudiandae iure voluptates?
+        </div>
     </div>
 
 </body>
