@@ -12,7 +12,16 @@ class ActivityLogController extends Controller
      */
     public function index()
     {
-        //
+        $logs = ActivityLog::with([
+            'plantBatch.plantType',
+            'creator',
+        ])
+            ->latest('activity_date')
+            ->get();
+
+        return view('activity-logs.index', [
+            'logs' => $logs,
+        ]);
     }
 
     /**

@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\PlantBatch;
 use Illuminate\Http\Request;
+use App\Models\CareTemplate;
+use App\Models\CareSchedule;
+use Carbon\Carbon;
 
 class PlantBatchController extends Controller
 {
@@ -42,7 +45,6 @@ class PlantBatchController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $validated = $request->validate([
             'plant_type_id' => 'required',
             'location_id' => 'required',
@@ -52,15 +54,37 @@ class PlantBatchController extends Controller
             'notes' => 'nullable',
         ]);
 
-        $plantType = \App\Models\PlantType::findOrFail($validated['plant_type_id']);
+        $plantType = \App\Models\PlantType::findOrFail(
+            $validated['plant_type_id']
+        );
 
-        $validated['estimated_harvest_date'] = now()
-            ->parse($validated['start_date'])
-            ->addDays($plantType->estimated_harvest_days);
+        $validated['estimated_harvest_date'] = Carbon::parse(
+            $validated['start_date']
+        )->addDays($plantType->estimated_harvest_days);
 
         $validated['created_by'] = auth()->id();
 
-        \App\Models\PlantBatch::create($validated);
+        // SIMPAN BATCH DULU
+        $batch = PlantBatch::create($validated);
+
+        // AUTO GENERATE SCHEDULE
+        $templates = CareTemplate::where(
+            'plant_type_id',
+            $batch->plant_type_id
+        )->get();
+
+        foreach ($templates as $template) {
+
+            CareSchedule::create([
+                'plant_batch_id' => $batch->id,
+                'care_template_id' => $template->id,
+
+                'scheduled_date' => Carbon::parse($batch->start_date)
+                    ->addDays($template->day_offset),
+
+                'status' => 'pending',
+            ]);
+        }
 
         return redirect()
             ->route('plant-batches.index')

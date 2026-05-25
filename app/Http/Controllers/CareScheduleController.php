@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\CareSchedule;
 use Illuminate\Http\Request;
+use App\Models\ActivityLog;
 
 class CareScheduleController extends Controller
 {
@@ -12,7 +13,16 @@ class CareScheduleController extends Controller
      */
     public function index()
     {
-        //
+        $schedules = CareSchedule::with([
+            'plantBatch.plantType',
+            'careTemplate',
+        ])
+            ->orderBy('scheduled_date')
+            ->get();
+
+        return view('care-schedules.index', [
+            'schedules' => $schedules,
+        ]);
     }
 
     /**
@@ -61,5 +71,39 @@ class CareScheduleController extends Controller
     public function destroy(CareSchedule $careSchedule)
     {
         //
+    }
+
+    public function complete(CareSchedule $careSchedule)
+    {
+        $careSchedule->update([
+            'status' => 'completed',
+        ]);
+
+        ActivityLog::create([
+
+            'plant_batch_id' => $careSchedule->plant_batch_id,
+
+            'care_schedule_id' => $careSchedule->id,
+
+            'activity_type' => $careSchedule
+                ->careTemplate
+                ->activity_type,
+
+            'activity_date' => now(),
+
+            'title' => $careSchedule
+                ->careTemplate
+                ->title,
+
+            'notes' => $careSchedule
+                ->careTemplate
+                ->description,
+
+            'created_by' => auth()->id(),
+        ]);
+
+        return redirect()
+            ->back()
+            ->with('success', 'Jadwal berhasil diselesaikan');
     }
 }
