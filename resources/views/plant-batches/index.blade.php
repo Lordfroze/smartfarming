@@ -15,9 +15,11 @@
 
         <div class="flex items-center justify-between mb-6">
             <div>
-                <h1 class="text-3xl font-bold text-gray-800">
+                <h2 class="text-3xl font-bold text-gray-800">
                     Plant Batches
-                </h1>
+                </h2>
+
+                @include('layouts.__navbar')
 
                 <p class="text-gray-500 mt-1">
                     Monitoring tanaman dan jadwal perawatan
@@ -49,7 +51,7 @@
                         <th class="p-4">Tanggal Tanam</th>
                         <th class="p-4">Estimasi Panen</th>
                         <th class="p-4">Status</th>
-
+                        <th class="p-4">Aksi</th>
                     </tr>
                 </thead>
 
@@ -94,6 +96,43 @@
                                 ">
                                 {{ ucfirst($batch->status) }}
                             </span>
+                        </td>
+
+                        <td class="p-4 flex gap-2">
+
+                            {{-- Edit --}}
+                            <a href="{{ route('plant-batches.edit', $batch->id) }}"
+                                class="bg-blue-500 text-white px-3 py-1 rounded-lg text-sm">
+                                Edit
+                            </a>
+
+                            {{-- Nonaktif / Aktif --}}
+                            @if($batch->status === 'active')
+
+                            <form method="POST"
+                                action="{{ route('plant-batches.destroy', $batch->id) }}">
+                                @csrf
+                                @method('DELETE')
+
+                                <button class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm">
+                                    Nonaktifkan
+                                </button>
+                            </form>
+
+                            @else
+
+                            <form method="POST"
+                                action="{{ route('plant-batches.activate', $batch->id) }}">
+                                @csrf
+                                @method('PATCH')
+
+                                <button class="bg-green-500 text-white px-3 py-1 rounded-lg text-sm">
+                                    Aktifkan Lagi
+                                </button>
+
+                            </form>
+
+                            @endif
 
                         </td>
 

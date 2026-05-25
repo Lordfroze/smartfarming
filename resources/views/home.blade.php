@@ -30,7 +30,7 @@
 
             <div class="mt-6 flex gap-4">
                 <button class="bg-yellow-600 text-white px-6 py-2 rounded-full">
-                    <a href=""> Open App</a>
+                    <a href="/login"> Open App</a>
                 </button>
                 <button class="bg-white text-yellow-700 px-6 py-2 rounded-full">
                     <a href="">Discover More</a>

@@ -8,17 +8,12 @@ use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\DashboardController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
 
 Route::get('/home', function () {
     return view('home');
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -30,6 +25,7 @@ Route::resource('plant-batches', PlantBatchController::class);
 Route::resource('care-schedules', CareScheduleController::class);
 Route::resource('activity-logs', ActivityLogController::class)
     ->only(['index']);
+
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
 
@@ -38,6 +34,10 @@ Route::patch(
     [CareScheduleController::class, 'complete']
 )->name('care-schedules.complete');
 
+Route::patch(
+    'plant-batches/{plantBatch}/activate',
+    [PlantBatchController::class, 'activate']
+)->name('plant-batches.activate');
 
 
 

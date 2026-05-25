@@ -16,7 +16,7 @@ class PlantBatchController extends Controller
     public function index()
     {
         //
-        $plantBatches = \App\Models\PlantBatch::with([
+        $plantBatches = PlantBatch::with([
             'plantType',
             'location',
         ])
@@ -121,5 +121,23 @@ class PlantBatchController extends Controller
     public function destroy(PlantBatch $plantBatch)
     {
         //
+        $plantBatch->update([
+            'status' => 'inactive',
+        ]);
+
+        return redirect()
+            ->route('plant-batches.index')
+            ->with('success', 'Batch berhasil dinonaktifkan');
+    }
+
+    public function activate(PlantBatch $plantBatch)
+    {
+        $plantBatch->update([
+            'status' => 'active',
+        ]);
+
+        return redirect()
+            ->route('plant-batches.index')
+            ->with('success', 'Batch berhasil diaktifkan kembali');
     }
 }
