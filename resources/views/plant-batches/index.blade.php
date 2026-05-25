@@ -1,89 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.master')
+@section('title', 'Plant Batches')
+@section('content')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plant Batches</title>
+@if(session('success'))
+<div class="bg-green-100 text-green-700 p-4 rounded-lg mb-6">
+    {{ session('success') }}
+</div>
+@endif
 
-    @vite(['resources/css/app.css'])
-</head>
+<div class="bg-white rounded-2xl shadow overflow-hidden">
 
-<body class="bg-gray-100 min-h-screen">
+    <table class="w-full">
 
-    <div class="max-w-7xl mx-auto p-6">
+        <thead class="bg-gray-50 border-b">
+            <tr class="text-left text-gray-600 text-sm">
 
-        <div class="flex items-center justify-between mb-6">
-            <div>
-                <h2 class="text-3xl font-bold text-gray-800">
-                    Plant Batches
-                </h2>
+                <th class="p-4">Batch</th>
+                <th class="p-4">Tanaman</th>
+                <th class="p-4">Lokasi</th>
+                <th class="p-4">Tanggal Tanam</th>
+                <th class="p-4">Estimasi Panen</th>
+                <th class="p-4">Status</th>
+                <th class="p-4">Aksi</th>
+            </tr>
+        </thead>
 
-                @include('layouts.__navbar')
+        <tbody>
 
-                <p class="text-gray-500 mt-1">
-                    Monitoring tanaman dan jadwal perawatan
-                </p>
-            </div>
+            @forelse($plantBatches as $batch)
 
-            <a href="{{ route('plant-batches.create') }}"
-                class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow">
-                + Tambah Batch
-            </a>
-        </div>
+            <tr class="border-b hover:bg-gray-50 transition">
 
-        @if(session('success'))
-        <div class="bg-green-100 text-green-700 p-4 rounded-lg mb-6">
-            {{ session('success') }}
-        </div>
-        @endif
+                <td class="p-4 font-semibold text-gray-800">
+                    {{ $batch->batch_code }}
+                </td>
 
-        <div class="bg-white rounded-2xl shadow overflow-hidden">
+                <td class="p-4">
+                    {{ $batch->plantType->name }}
+                </td>
 
-            <table class="w-full">
+                <td class="p-4">
+                    {{ $batch->location->name }}
+                </td>
 
-                <thead class="bg-gray-50 border-b">
-                    <tr class="text-left text-gray-600 text-sm">
+                <td class="p-4">
+                    {{ $batch->start_date->format('d M Y') }}
+                </td>
 
-                        <th class="p-4">Batch</th>
-                        <th class="p-4">Tanaman</th>
-                        <th class="p-4">Lokasi</th>
-                        <th class="p-4">Tanggal Tanam</th>
-                        <th class="p-4">Estimasi Panen</th>
-                        <th class="p-4">Status</th>
-                        <th class="p-4">Aksi</th>
-                    </tr>
-                </thead>
+                <td class="p-4">
+                    {{ $batch->estimated_harvest_date?->format('d M Y') }}
+                </td>
 
-                <tbody>
+                <td class="p-4">
 
-                    @forelse($plantBatches as $batch)
-
-                    <tr class="border-b hover:bg-gray-50 transition">
-
-                        <td class="p-4 font-semibold text-gray-800">
-                            {{ $batch->batch_code }}
-                        </td>
-
-                        <td class="p-4">
-                            {{ $batch->plantType->name }}
-                        </td>
-
-                        <td class="p-4">
-                            {{ $batch->location->name }}
-                        </td>
-
-                        <td class="p-4">
-                            {{ $batch->start_date->format('d M Y') }}
-                        </td>
-
-                        <td class="p-4">
-                            {{ $batch->estimated_harvest_date?->format('d M Y') }}
-                        </td>
-
-                        <td class="p-4">
-
-                            <span class="
+                    <span class="
                                     px-3 py-1 rounded-full text-xs font-medium
 
                                     @if($batch->status === 'active')
@@ -94,68 +64,65 @@
                                         bg-gray-100 text-gray-700
                                     @endif
                                 ">
-                                {{ ucfirst($batch->status) }}
-                            </span>
-                        </td>
+                        {{ ucfirst($batch->status) }}
+                    </span>
+                </td>
 
-                        <td class="p-4 flex gap-2">
+                <td class="p-4 flex gap-2">
 
-                            {{-- Edit --}}
-                            <a href="{{ route('plant-batches.edit', $batch->id) }}"
-                                class="bg-blue-500 text-white px-3 py-1 rounded-lg text-sm">
-                                Edit
-                            </a>
+                    {{-- Edit --}}
+                    <a href="{{ route('plant-batches.edit', $batch->id) }}"
+                        class="bg-blue-500 text-white px-3 py-1 rounded-lg text-sm">
+                        Edit
+                    </a>
 
-                            {{-- Nonaktif / Aktif --}}
-                            @if($batch->status === 'active')
+                    {{-- Nonaktif / Aktif --}}
+                    @if($batch->status === 'active')
 
-                            <form method="POST"
-                                action="{{ route('plant-batches.destroy', $batch->id) }}">
-                                @csrf
-                                @method('DELETE')
+                    <form method="POST"
+                        action="{{ route('plant-batches.destroy', $batch->id) }}">
+                        @csrf
+                        @method('DELETE')
 
-                                <button class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm">
-                                    Nonaktifkan
-                                </button>
-                            </form>
+                        <button class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm">
+                            Nonaktifkan
+                        </button>
+                    </form>
 
-                            @else
+                    @else
 
-                            <form method="POST"
-                                action="{{ route('plant-batches.activate', $batch->id) }}">
-                                @csrf
-                                @method('PATCH')
+                    <form method="POST"
+                        action="{{ route('plant-batches.activate', $batch->id) }}">
+                        @csrf
+                        @method('PATCH')
 
-                                <button class="bg-green-500 text-white px-3 py-1 rounded-lg text-sm">
-                                    Aktifkan Lagi
-                                </button>
+                        <button class="bg-green-500 text-white px-3 py-1 rounded-lg text-sm">
+                            Aktifkan Lagi
+                        </button>
 
-                            </form>
+                    </form>
 
-                            @endif
+                    @endif
 
-                        </td>
+                </td>
 
-                    </tr>
+            </tr>
 
-                    @empty
+            @empty
 
-                    <tr>
-                        <td colspan="6" class="p-8 text-center text-gray-400">
-                            Belum ada batch tanaman
-                        </td>
-                    </tr>
+            <tr>
+                <td colspan="6" class="p-8 text-center text-gray-400">
+                    Belum ada batch tanaman
+                </td>
+            </tr>
 
-                    @endforelse
+            @endforelse
 
-                </tbody>
+        </tbody>
 
-            </table>
+    </table>
 
-        </div>
+</div>
 
-    </div>
-
-</body>
-
-</html>
+</div>
+@endsection

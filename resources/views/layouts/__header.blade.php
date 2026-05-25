@@ -16,9 +16,7 @@
         {{-- HEADER --}}
         <div class="mb-8">
 
-            <h1 class="text-4xl font-bold text-gray-800">
-                Smart Farming Dashboard 🌱
-            </h1>
+            <h1 class="text-4xl font-bold text-gray-800">@yield('title')</h1>
             <div class="mb-8">
 
                 <p class="text-gray-500 mt-2">
