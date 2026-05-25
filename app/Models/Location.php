@@ -5,19 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class PlantType extends Model
+class Location extends Model
 {
     protected $fillable = [
         'name',
-        'category',
+        'type',
         'description',
-        'estimated_harvest_days',
     ];
-
-    public function careTemplates(): HasMany
-    {
-        return $this->hasMany(CareTemplate::class);
-    }
 
     public function plantBatches(): HasMany
     {
