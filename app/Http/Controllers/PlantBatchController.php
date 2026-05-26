@@ -105,6 +105,11 @@ class PlantBatchController extends Controller
     public function edit(PlantBatch $plantBatch)
     {
         //
+        return view('plant-batches.edit', [
+            'plantBatch' => $plantBatch,
+            'plantTypes' => \App\Models\PlantType::all(),
+            'locations' => \App\Models\Location::all(),
+        ]);
     }
 
     /**
@@ -113,6 +118,29 @@ class PlantBatchController extends Controller
     public function update(Request $request, PlantBatch $plantBatch)
     {
         //
+        $validated = $request->validate([
+            'plant_type_id' => 'required',
+            'location_id' => 'required',
+            'batch_code' => 'required|unique:plant_batches,batch_code,' . $plantBatch->id,
+            'start_date' => 'required|date',
+            'total_seed' => 'required|integer',
+            'notes' => 'nullable',
+            'status' => 'required',
+        ]);
+
+        $plantType = \App\Models\PlantType::findOrFail(
+            $validated['plant_type_id']
+        );
+
+        $validated['estimated_harvest_date'] = Carbon::parse(
+            $validated['start_date']
+        )->addDays($plantType->estimated_harvest_days);
+
+        $plantBatch->update($validated);
+
+        return redirect()
+            ->route('plant-batches.index')
+            ->with('success', 'Batch berhasil diperbarui');
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Http\Controllers\PlantBatchController;
 use App\Http\Controllers\CareScheduleController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\PlantTypeController;
 
 Route::get('/', function () {
     return view('home');
@@ -21,13 +22,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::resource('plant-batches', PlantBatchController::class);
-Route::resource('care-schedules', CareScheduleController::class);
-Route::resource('activity-logs', ActivityLogController::class)
-    ->only(['index']);
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');
+Route::resource('plant-batches', PlantBatchController::class);
+Route::resource('care-schedules', CareScheduleController::class);
+Route::resource('activity-logs', ActivityLogController::class)->only(['index']);
+Route::resource('plant-types', PlantTypeController::class);
+
 
 Route::patch(
     'care-schedules/{careSchedule}/complete',
