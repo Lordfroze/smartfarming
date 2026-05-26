@@ -8,6 +8,16 @@
 </div>
 @endif
 
+<div class="flex justify-end mb-6">
+    <a href="{{ route('plant-types.create') }}"
+        class="bg-green-600 hover:bg-green-700
+                      text-white px-5 py-3 rounded-xl shadow">
+
+        + Tambah Tanaman
+
+    </a>
+</div>
+
 <div class="bg-white rounded-2xl shadow overflow-hidden">
 
     <table class="w-full">

@@ -7,59 +7,65 @@ use Illuminate\Http\Request;
 
 class PlantTypeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $plantTypes = PlantType::latest()->get();
+
+        return view('plant-types.index', [
+            'plantTypes' => $plantTypes,
+        ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('plant-types.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required',
+            'category' => 'nullable',
+            'description' => 'nullable',
+            'estimated_harvest_days' => 'required|integer',
+        ]);
+
+        PlantType::create($validated);
+
+        return redirect()
+            ->route('plant-types.index')
+            ->with('success', 'Jenis tanaman berhasil ditambahkan');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(PlantType $plantType)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(PlantType $plantType)
     {
-        //
+        return view('plant-types.edit', [
+            'plantType' => $plantType,
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, PlantType $plantType)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required',
+            'category' => 'nullable',
+            'description' => 'nullable',
+            'estimated_harvest_days' => 'required|integer',
+        ]);
+
+        $plantType->update($validated);
+
+        return redirect()
+            ->route('plant-types.index')
+            ->with('success', 'Jenis tanaman berhasil diperbarui');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(PlantType $plantType)
     {
-        //
+        $plantType->delete();
+
+        return redirect()
+            ->route('plant-types.index')
+            ->with('success', 'Jenis tanaman berhasil dihapus');
     }
 }
