@@ -9,11 +9,11 @@
 @endif
 
 <div class="flex justify-end mb-6">
-    <a href="{{ route('plant-types.create') }}"
+    <a href="{{ route('plant-batches.create') }}"
         class="bg-green-600 hover:bg-green-700
                       text-white px-5 py-3 rounded-xl shadow">
 
-        + Tambah Tanaman
+        + Tambah Batch
 
     </a>
 </div>

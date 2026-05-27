@@ -28,13 +28,6 @@
 
 </a>
 
-<a href="{{ route('plant-batches.create') }}"
-    class="bg-purple-600 hover:bg-purple-700
-              text-white px-4 py-2 rounded-xl shadow">
-
-    ➕ Tambah Batch
-</a>
-
 <a href="{{ route('plant-types.index') }}"
     class="bg-red-600 hover:bg-red-700
               text-white px-4 py-2 rounded-xl shadow">

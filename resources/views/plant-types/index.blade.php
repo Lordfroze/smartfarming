@@ -5,23 +5,13 @@
 
     <div class="max-w-6xl mx-auto">
 
-        <div class="flex items-center justify-between mb-6">
-
-            <div>
-                <h1 class="text-3xl font-bold text-gray-800">
-                    🌱 Plant Types
-                </h1>
-
-                <p class="text-gray-500 mt-1">
-                    Master jenis tanaman
-                </p>
-            </div>
+        <div class="flex items-center justify-end mb-6">
 
             <a href="{{ route('plant-types.create') }}"
                 class="bg-green-600 hover:bg-green-700
                       text-white px-5 py-3 rounded-xl shadow">
 
-                + Tambah Tanaman
+                + Tambah Jenis Tanaman
 
             </a>
 

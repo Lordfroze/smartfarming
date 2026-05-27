@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title')</title>
 
-    @vite(['resources/css/app.css'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
 <body class="bg-gray-100 min-h-screen">
@@ -22,5 +22,7 @@
                 <p class="text-gray-500 mt-2">
                     Monitoring tanaman dan aktivitas pertanian
                 </p>
+                <span class="mr-2">Selamat datang, {{ Auth::user()->name }}</span>
+                <!-- tombol keluar -->
 
                 <div class="flex flex-wrap gap-3 mt-6">
