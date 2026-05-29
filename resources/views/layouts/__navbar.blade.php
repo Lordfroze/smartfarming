@@ -41,5 +41,13 @@
 
     📅 Care Templates
 </a>
+
+<a href="{{ route('harvests.index') }}"
+    class="bg-orange-600 hover:bg-orange-700
+              text-white px-4 py-2 rounded-xl shadow">
+
+    🌱 Harvests
+</a>
+
 </div>
 </div>

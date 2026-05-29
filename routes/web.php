@@ -8,6 +8,8 @@ use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PlantTypeController;
 use App\Http\Controllers\CareTemplateController;
+use App\Http\Controllers\HarvestController;
+
 
 
 Route::get('/', function () {
@@ -31,6 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('activity-logs', ActivityLogController::class)->only(['index']);
     Route::resource('plant-types', PlantTypeController::class);
     Route::resource('care-templates', CareTemplateController::class);
+    Route::resource('harvests', HarvestController::class);
+
 
 
 
