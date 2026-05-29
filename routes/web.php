@@ -7,6 +7,8 @@ use App\Http\Controllers\CareScheduleController;
 use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PlantTypeController;
+use App\Http\Controllers\CareTemplateController;
+
 
 Route::get('/', function () {
     return view('home');
@@ -21,13 +23,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // route dashboard
+    // route aplikasi
     Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
     Route::resource('plant-batches', PlantBatchController::class);
     Route::resource('care-schedules', CareScheduleController::class);
     Route::resource('activity-logs', ActivityLogController::class)->only(['index']);
     Route::resource('plant-types', PlantTypeController::class);
+    Route::resource('care-templates', CareTemplateController::class);
+
 
 
     Route::patch(
