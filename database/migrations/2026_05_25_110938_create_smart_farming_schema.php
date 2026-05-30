@@ -17,10 +17,16 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
-            $table->string('email')->unique();
+
+            $table->string('email')
+                ->unique();
+
             $table->string('password');
 
-            $table->string('role')->default('user');
+            $table->enum('role', [
+                'admin',
+                'worker',
+            ])->default('worker');
 
             $table->timestamps();
         });
@@ -34,11 +40,18 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
-            $table->string('category')->nullable();
 
-            $table->text('description')->nullable();
+            $table->string('category')
+                ->nullable();
 
-            $table->integer('estimated_harvest_days')->nullable();
+            $table->text('description')
+                ->nullable();
+
+            $table->integer('estimated_harvest_days')
+                ->nullable();
+
+            $table->string('status')
+                ->default('active');
 
             $table->timestamps();
         });
@@ -53,9 +66,14 @@ return new class extends Migration
 
             $table->string('name');
 
-            $table->string('type')->nullable();
+            $table->string('type')
+                ->nullable();
 
-            $table->text('description')->nullable();
+            $table->text('description')
+                ->nullable();
+
+            $table->string('status')
+                ->default('active');
 
             $table->timestamps();
         });
@@ -70,27 +88,36 @@ return new class extends Migration
 
             $table->foreignId('plant_type_id')
                 ->constrained()
-                ->cascadeOnDelete();
+                ->restrictOnDelete();
 
             $table->foreignId('location_id')
                 ->constrained()
-                ->cascadeOnDelete();
+                ->restrictOnDelete();
 
-            $table->string('batch_code')->unique();
+            $table->string('batch_code')
+                ->unique();
 
             $table->date('start_date');
 
-            $table->date('estimated_harvest_date')->nullable();
+            $table->date('estimated_harvest_date')
+                ->nullable();
 
-            $table->integer('total_seed')->default(0);
+            $table->date('actual_harvest_date')
+                ->nullable();
 
-            $table->string('status')->default('active');
+            $table->integer('total_seed')
+                ->default(0);
 
-            $table->text('notes')->nullable();
+            $table->string('status')
+                ->default('active');
+
+            $table->text('notes')
+                ->nullable();
 
             $table->foreignId('created_by')
+                ->nullable()
                 ->constrained('users')
-                ->cascadeOnDelete();
+                ->nullOnDelete();
 
             $table->timestamps();
         });
@@ -113,7 +140,8 @@ return new class extends Migration
 
             $table->string('title');
 
-            $table->text('description')->nullable();
+            $table->text('description')
+                ->nullable();
 
             $table->timestamps();
         });
@@ -128,7 +156,7 @@ return new class extends Migration
 
             $table->foreignId('plant_batch_id')
                 ->constrained()
-                ->cascadeOnDelete();
+                ->restrictOnDelete();
 
             $table->foreignId('care_template_id')
                 ->nullable()
@@ -137,7 +165,11 @@ return new class extends Migration
 
             $table->date('scheduled_date');
 
-            $table->string('status')->default('pending');
+            $table->date('completed_date')
+                ->nullable();
+
+            $table->string('status')
+                ->default('pending');
 
             $table->timestamps();
         });
@@ -152,7 +184,7 @@ return new class extends Migration
 
             $table->foreignId('plant_batch_id')
                 ->constrained()
-                ->cascadeOnDelete();
+                ->restrictOnDelete();
 
             $table->foreignId('care_schedule_id')
                 ->nullable()
@@ -165,15 +197,22 @@ return new class extends Migration
 
             $table->string('title');
 
-            $table->text('notes')->nullable();
+            $table->text('notes')
+                ->nullable();
 
-            $table->decimal('quantity', 10, 2)->nullable();
+            $table->decimal('quantity', 10, 2)
+                ->nullable();
 
-            $table->string('unit')->nullable();
+            $table->string('unit')
+                ->nullable();
+
+            $table->string('status')
+                ->default('completed');
 
             $table->foreignId('created_by')
+                ->nullable()
                 ->constrained('users')
-                ->cascadeOnDelete();
+                ->nullOnDelete();
 
             $table->timestamps();
         });
@@ -188,21 +227,28 @@ return new class extends Migration
 
             $table->foreignId('plant_batch_id')
                 ->constrained()
-                ->cascadeOnDelete();
+                ->restrictOnDelete();
 
             $table->date('harvest_date');
 
             $table->decimal('quantity', 10, 2);
 
-            $table->string('unit')->default('kg');
+            $table->string('unit')
+                ->default('ikat');
 
-            $table->string('quality_grade')->nullable();
+            $table->string('quality_grade')
+                ->nullable();
 
-            $table->text('notes')->nullable();
+            $table->text('notes')
+                ->nullable();
+
+            $table->string('status')
+                ->default('recorded');
 
             $table->foreignId('created_by')
+                ->nullable()
                 ->constrained('users')
-                ->cascadeOnDelete();
+                ->nullOnDelete();
 
             $table->timestamps();
         });
@@ -221,7 +267,8 @@ return new class extends Migration
 
             $table->string('file_path');
 
-            $table->string('file_type')->nullable();
+            $table->string('file_type')
+                ->nullable();
 
             $table->timestamps();
         });

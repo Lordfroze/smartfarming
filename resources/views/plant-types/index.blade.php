@@ -63,27 +63,37 @@
 
                             </a>
 
+                            {{-- Nonaktif / Aktif --}}
+                            @if($plant->status === 'active')
+
                             <form method="POST"
                                 action="{{ route('plant-types.destroy', $plant->id) }}">
-
                                 @csrf
                                 @method('DELETE')
 
-                                <button class="bg-red-500 text-white
-                                                   px-3 py-1 rounded-lg text-sm">
+                                <button class="bg-red-500 text-white px-3 py-1 rounded-lg text-sm">
+                                    Nonaktifkan
+                                </button>
+                            </form>
 
-                                    Hapus
+                            @else
 
+                            <form method="POST"
+                                action="{{ route('plant-types.activate', $plant->id) }}">
+                                @csrf
+                                @method('PATCH')
+
+                                <button class="bg-green-500 text-white px-3 py-1 rounded-lg text-sm">
+                                    Aktifkan Lagi
                                 </button>
 
                             </form>
+                            @endif
 
                         </td>
 
                     </tr>
-
                     @empty
-
                     <tr>
                         <td colspan="4"
                             class="p-8 text-center text-gray-400">

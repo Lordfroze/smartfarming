@@ -35,8 +35,8 @@ class PlantBatchController extends Controller
     {
         //
         return view('plant-batches.create', [
-            'plantTypes' => \App\Models\PlantType::all(),
-            'locations' => \App\Models\Location::all(),
+            'plantTypes' => \App\Models\PlantType::where('status', 'active')->get(),
+            'locations' => \App\Models\Location::where('status', 'active')->get(),
         ]);
     }
 

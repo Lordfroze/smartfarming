@@ -47,6 +47,11 @@ Route::middleware('auth')->group(function () {
         'plant-batches/{plantBatch}/activate',
         [PlantBatchController::class, 'activate']
     )->name('plant-batches.activate');
+
+    Route::patch(
+        'plant-types/{plantType}/activate',
+        [PlantTypeController::class, 'activate']
+    )->name('plant-types.activate');
 });
 
 

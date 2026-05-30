@@ -12,6 +12,7 @@ class PlantType extends Model
         'category',
         'description',
         'estimated_harvest_days',
+        'status'
     ];
 
     public function careTemplates(): HasMany

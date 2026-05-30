@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'name' => 'Yoga',
             'email' => 'yoga@farm.test',
             'password' => Hash::make('password'),
-            'role' => 'user',
+            'role' => 'worker',
         ]);
     }
 }

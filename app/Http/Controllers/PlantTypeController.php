@@ -62,10 +62,22 @@ class PlantTypeController extends Controller
 
     public function destroy(PlantType $plantType)
     {
-        $plantType->delete();
+        $plantType->update([
+            'status' => 'inactive'
+        ]);
 
         return redirect()
             ->route('plant-types.index')
-            ->with('success', 'Jenis tanaman berhasil dihapus');
+            ->with('success', 'Jenis tanaman dinonaktifkan');
+    }
+
+    public function activate(PlantType $plantType)
+    {
+        $plantType->update([
+            'status' => 'active'
+        ]);
+
+        return back()
+            ->with('success', 'Jenis tanaman diaktifkan kembali');
     }
 }
