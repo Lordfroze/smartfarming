@@ -192,7 +192,7 @@ return new class extends Migration
 
             $table->date('harvest_date');
 
-            $table->decimal('total_weight', 10, 2);
+            $table->decimal('quantity', 10, 2);
 
             $table->string('unit')->default('kg');
 
