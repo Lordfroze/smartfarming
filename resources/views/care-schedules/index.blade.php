@@ -1,126 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.master')
+@section('title', 'Jadwal Perawatan')
+@section('description', 'Daftar jadwal perawatan tanaman')
+@section('content')
+<div class="bg-white rounded-2xl shadow overflow-hidden">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Care Schedules</title>
+    <table class="w-full">
 
-    @vite(['resources/css/app.css'])
-</head>
+        <thead class="bg-gray-50 border-b">
+            <tr class="text-left text-sm text-gray-600">
 
-<body class="bg-gray-100 min-h-screen">
+                <th class="p-4">Batch</th>
+                <th class="p-4">Tanaman</th>
+                <th class="p-4">Aktivitas</th>
+                <th class="p-4">Tanggal</th>
+                <th class="p-4">Status</th>
 
-    <div class="max-w-7xl mx-auto p-6">
+            </tr>
+        </thead>
 
-        <div class="mb-6">
-            <h1 class="text-3xl font-bold text-gray-800">
-                Jadwal Perawatan
-            </h1>
+        <tbody>
 
-            <p class="text-gray-500 mt-1">
-                Jadwal otomatis dari template tanaman
-            </p>
-        </div>
+            @forelse($schedules as $schedule)
 
-        <div class="bg-white rounded-2xl shadow overflow-hidden">
+            <tr class="border-b hover:bg-gray-50">
 
-            <table class="w-full">
+                <td class="p-4 font-semibold">
+                    {{ $schedule->plantBatch->batch_code }}
+                </td>
 
-                <thead class="bg-gray-50 border-b">
-                    <tr class="text-left text-sm text-gray-600">
+                <td class="p-4">
+                    {{ $schedule->plantBatch->plantType->name }}
+                </td>
 
-                        <th class="p-4">Batch</th>
-                        <th class="p-4">Tanaman</th>
-                        <th class="p-4">Aktivitas</th>
-                        <th class="p-4">Tanggal</th>
-                        <th class="p-4">Status</th>
+                <td class="p-4">
+                    {{ $schedule->careTemplate->title }}
+                </td>
 
-                    </tr>
-                </thead>
+                <td class="p-4">
+                    {{ $schedule->scheduled_date->format('d M Y') }}
+                </td>
 
-                <tbody>
+                <td class="p-4">
 
-                    @forelse($schedules as $schedule)
-
-                    <tr class="border-b hover:bg-gray-50">
-
-                        <td class="p-4 font-semibold">
-                            {{ $schedule->plantBatch->batch_code }}
-                        </td>
-
-                        <td class="p-4">
-                            {{ $schedule->plantBatch->plantType->name }}
-                        </td>
-
-                        <td class="p-4">
-                            {{ $schedule->careTemplate->title }}
-                        </td>
-
-                        <td class="p-4">
-                            {{ $schedule->scheduled_date->format('d M Y') }}
-                        </td>
-
-                        <td class="p-4">
-
-                            <span class="px-3 py-1 rounded-full text-xs font-medium
+                    <span class="px-3 py-1 rounded-full text-xs font-medium
                                 bg-yellow-100 text-yellow-700">
 
-                                {{ ucfirst($schedule->status) }}
+                        {{ ucfirst($schedule->status) }}
 
-                            </span>
+                    </span>
 
-                        </td>
-                        <th class="p-4">
-                        <td class="p-4">
+                </td>
+                <th class="p-4">
+                <td class="p-4">
 
-                            @if($schedule->status !== 'completed')
+                    @if($schedule->status !== 'completed')
 
-                            <form
-                                action="{{ route('care-schedules.complete', $schedule) }}"
-                                method="POST">
-                                @csrf
-                                @method('PATCH')
+                    <form
+                        action="{{ route('care-schedules.complete', $schedule) }}"
+                        method="POST">
+                        @csrf
+                        @method('PATCH')
 
-                                <button
-                                    class="bg-green-600 hover:bg-green-700
+                        <button
+                            class="bg-green-600 hover:bg-green-700
                        text-white text-sm px-3 py-2 rounded-lg">
 
-                                    Selesai
+                            Selesai
 
-                                </button>
+                        </button>
 
-                            </form>
+                    </form>
 
-                            @endif
+                    @endif
 
-                        </td>
-                        </th>
+                </td>
+                </th>
 
 
-                    </tr>
+            </tr>
 
-                    @empty
+            @empty
 
-                    <tr>
-                        <td colspan="5"
-                            class="p-8 text-center text-gray-400">
+            <tr>
+                <td colspan="5"
+                    class="p-8 text-center text-gray-400">
 
-                            Belum ada jadwal
+                    Belum ada jadwal
 
-                        </td>
-                    </tr>
+                </td>
+            </tr>
 
-                    @endforelse
+            @endforelse
 
-                </tbody>
+        </tbody>
 
-            </table>
+    </table>
 
-        </div>
-
-    </div>
-
-</body>
-
-</html>
+</div>
+@endsection

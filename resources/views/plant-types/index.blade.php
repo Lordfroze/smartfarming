@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('title', 'Plant Types')
+@section('description', 'Daftar jenis tanaman')
 @section('content')
 <div class="min-h-screen bg-gray-100 p-6">
 

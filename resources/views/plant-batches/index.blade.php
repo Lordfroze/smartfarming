@@ -1,5 +1,6 @@
 @extends('layouts.master')
 @section('title', 'Plant Batches')
+@section('description', 'Daftar kelompok tanaman ')
 @section('content')
 
 @if(session('success'))

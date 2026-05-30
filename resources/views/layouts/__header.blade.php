@@ -20,7 +20,7 @@
             <div class="mb-8">
 
                 <p class="text-gray-500 mt-2">
-                    Monitoring tanaman dan aktivitas pertanian
+                    @yield('description')
                 </p>
                 <span class="mr-2">Selamat datang, {{ Auth::user()->name }}</span>
                 <!-- tombol keluar -->

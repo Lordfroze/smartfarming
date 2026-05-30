@@ -1,21 +1,12 @@
 @extends('layouts.master')
 @section('title', 'Care Templates')
+@section('description', 'Daftar template jadwal otomatis tanaman')
 @section('content')
 <div class="min-h-screen bg-gray-100 p-6">
 
     <div class="max-w-7xl mx-auto">
 
-        <div class="flex items-center justify-between mb-6">
-
-            <div>
-                <h1 class="text-3xl font-bold text-gray-800">
-                    📅 Care Templates
-                </h1>
-
-                <p class="text-gray-500 mt-1">
-                    Template jadwal otomatis tanaman
-                </p>
-            </div>
+        <div class="flex items-center justify-end mb-6">
 
             <a href="{{ route('care-templates.create') }}"
                 class="bg-green-600 hover:bg-green-700
